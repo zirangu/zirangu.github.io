@@ -1,0 +1,18 @@
+title: Ziran Gu
+description: >-
+  Personal site and blog.
+url: "https://zirangu.github.io"
+baseurl: ""
+
+theme: minima
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+permalink: /blog/:year/:month/:day/:title/
+show_excerpts: true
+
+header_pages:
+  - blog.md
