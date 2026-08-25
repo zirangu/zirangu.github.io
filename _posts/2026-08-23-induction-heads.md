@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Understanding Induction Heads for Pythia_160"
-Last Udpated Date: 2026-08-23 
+date: 2026-08-23 12:00:00 -0000
 categories: general
 ---
 
