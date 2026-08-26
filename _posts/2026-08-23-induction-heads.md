@@ -33,11 +33,28 @@ We use Pythia_160 for model. Here is the detail of model spec.
 | positional embeddings | RoPE  |
 | attention mechanism | parallel attention & MLP computation |
 
-It would be difficult to visualize the attention scores assigned to every head across every layer (12 * 12 * [seq_length]). Therefore the first motivation is to come up with a score per head that measures the strength of induction exhibited by that head. 
+It would be difficult to visualize the attention scores assigned to every head across every layer for every token in the sequence(12 * 12 * [seq_length]). Therefore the first motivation is to come up with a score per head that measures the strength of induction exhibited by that head, averaging over all the tokens in a given batch.
+
+# Calculating Induction Scores
+
+What does it mean for an attention head to exhibit induction functionality? Suppose we take a hypothetical sequence "It is Friday", and supposed it is broken down into 3 tokens "It", "is" and "Friday". We construct a repetitive sequence with the following convention: 
+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6|
+|---|---|---|---|---|---|---|
+| [POS] | It  | is| Friday | It  | is| Friday |
+
+where [POS] is a position identifier that takes up one token.
+Suppose this newly constructed sequence is at position 5, the second "is". An induction head would assign a high score to the word after the first "is" which is in this case the first "Friday", so that it is highly probable that the next word in the sequence after the second "is" is "Friday". 
+
+Inspired from the examples above, to build the induction scores, we do the following. We first construct 20 batches of repeated sequence length of size 100 (constructed sequence length = 201). For each attention head, we average the attention score, evaluated at current position i, to past position i - (1 - seq_len), then averaged over all positions in the batch sequence and over all batches. We will then have a induction score calculated for every layer-head combination that measures the likelihood of that head being an induction head, which is displayed below.
 
 
 ![Induction score by head](/assets/images/induction_score_by_head.png)
 
+# Zero-ablation
+
 ![Zero-ablation scores](/assets/images/zero-ablation.png)
+
+# Mean-ablation
 
 ![Mean-ablation scores](/assets/images/mean-ablation.png)
