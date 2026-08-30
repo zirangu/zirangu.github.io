@@ -71,3 +71,5 @@ Alternatively we can use the mean-ablation score. Instead of setting the attenti
 ![Mean-ablation scores](/assets/images/mean-ablation.png)
 
 We see a slight decreaese in (3,2) (5,0) and (9,4) but the results are still vastly different from our induction score analysis. 
+
+# Explaining the discrepancy
